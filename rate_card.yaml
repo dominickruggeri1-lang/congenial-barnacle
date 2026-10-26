@@ -1,0 +1,119 @@
+# ALD master rate card.
+# One file, read by every Cost Engine this repo generates. Change a rate here once
+# instead of retyping it inside each customer workbook.
+#
+# Every value carries its basis. Values were taken from the Kawasaki Maryville Cost
+# Engine (ALD-2026-1013-KM, 10/13/26), which is the current reference build.
+# A job file can override any key under `overrides:` and must give its own basis.
+
+pricing:
+  energy_rate:
+    value: 0.13
+    unit: $/kWh
+    basis: "PLACEHOLDER. Every job must override this with the plant's 12 month bill rate or a cited EIA state average. The engine flags it if left at this default."
+  operating_hours:
+    value: 8760
+    unit: hrs/yr
+    basis: "ALD default 24/7/365 when the shift schedule is not known. Savings scale down in proportion if the plant does not run 24/7."
+  kw_per_cfm:
+    value: 0.2
+    unit: kW/CFM
+    basis: "ALD planning factor (DOE Sourcebook about 0.197 kW/CFM at 100 psi). On fixed speed machines saved CFM only becomes saved kW once a unit is turned off or load shifted."
+  margin_floor:
+    value: 0.20
+    unit: "%"
+    basis: "ALD minimum gross margin. Sell = Cost / (1 - margin)."
+  travel_margin:
+    value: 0.10
+    unit: "%"
+    basis: "ALD standard on pass-through travel."
+  ld_labor_margin:
+    value: 0.40
+    unit: "%"
+    basis: "Fairlife / Fresno survey pattern (40%)."
+  repair_labor_margin:
+    value: 0.50
+    unit: "%"
+    basis: "Fairlife / Petoskey repair pattern (50%)."
+  rounding:
+    value: 250
+    unit: $
+    basis: "Customer price rounded UP to the next $250."
+
+sizing:
+  leak_share:
+    value: 0.30
+    unit: "%"
+    basis: "ALD LD quote rule: expected leaks = 30% of operating capacity. The survey replaces this estimate."
+  guarantee_share:
+    value: 0.30
+    unit: "%"
+    basis: "Petoskey pattern: guarantee 30% of leak load. CFM guarantee, never a leak count."
+  cfm_per_leak:
+    value: 3
+    unit: CFM
+    basis: "Lactalis tags ran 2-4 CFM each. Used only to size repair parts."
+  parts_per_leak:
+    value: 25
+    unit: $/leak
+    basis: "ALD default $25/leak (AMG). Petoskey used $5. Sized to the full expected leak load, so it carries cushion."
+  share_running:
+    value: 0.80
+    unit: "%"
+    basis: "Default share of listed HP running in normal production. Confirm with the plant."
+  cfm_per_hp:
+    value: 4.3
+    unit: CFM/HP
+    basis: "ALD sizing factor when no measured plant flow exists. Treats running units as fully loaded."
+
+service:
+  tech_day:
+    value: 1200
+    unit: $/day
+    basis: "Tier 1 field technician cost, weekday. Weekend is $1,800/day."
+  flight:
+    value: 1600
+    unit: $/person
+    basis: "ALD rate card round trip per person. Use the actual fare when booked."
+  per_diem:
+    value: 100
+    unit: $/day
+    basis: "ALD rate card."
+  hotel:
+    value: 250
+    unit: $/night
+    basis: "ALD rate card. Use the actual rate when booked."
+  rental_car:
+    value: 800
+    unit: $/week
+    basis: "Enterprise, Corp Acct AQT962X, one car shared by the crew."
+  air_sample:
+    value: 150
+    unit: $
+    basis: "ISO 8573-1 air sample cost (LDL1 PM master template). Offered complimentary."
+
+days:
+  survey_days:
+    value: 5
+    unit: days
+    basis: "On-site survey days per tech. Size from expected leak count and plant footprint."
+  report_days:
+    value: 1
+    unit: days
+    basis: "Office day to build the leak workbook and summary."
+  repair_days:
+    value: 10
+    unit: days
+    basis: "On-site repair days per tech."
+  travel_days:
+    value: 1
+    unit: days
+    basis: "One fly-in day (per diem and hotel night). Fly-out happens on the last work day."
+  techs:
+    value: 2
+    unit: techs
+    basis: "Tier 1 techs on site for survey and repair."
+  weekend_nights:
+    value: 0
+    unit: nights
+    basis: "Nights the crew stays on site over weekends between survey and repair. 0 if the repair is a separate trip."

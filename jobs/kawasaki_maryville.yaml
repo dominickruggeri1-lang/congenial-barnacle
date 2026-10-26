@@ -1,0 +1,45 @@
+# Reference job: rebuilds ALD-2026-1013-KM from the master rate card.
+# tests/test_cost_engine.py checks the generated workbook against the
+# hand-built Kawasaki Cost Engine prices.
+
+quote:
+  number: ALD-2026-1013-KM
+  date: 2026-10-13
+  valid_days: 30
+  prepared_for: "CAM Technologies (Helen King, Regional Sales Manager, Midwest)"
+  end_client: "Kawasaki Motors Manufacturing Corp., U.S.A. · 28147 US-71 BUS, Maryville, MO 64468"
+  prepared_by: Dominick Ruggeri
+  travel_route: "Livermore to Kansas City, then drive"
+
+overrides:
+  energy_rate:
+    value: 0.0787
+    basis: "ASSUMPTION: Missouri statewide average industrial retail price, 2024 annual, U.S. EIA Electric Sales, Revenue and Average Price, Table 4 (7.87 cents/kWh). Not Kawasaki's Evergy tariff or bill. Replace with the plant's 12 month bill rate when available."
+  survey_days:
+    value: 5
+    basis: "ASSUMPTION: 5 on-site days per tech, 2 techs. Expected leak load 1,961 CFM at about 3 CFM per leak is roughly 650 leaks across a 1,900 HP plant."
+  repair_days:
+    value: 10
+    basis: "ASSUMPTION: 10 on-site repair days per tech, same trip as the survey. Per Dom 10/13/26."
+  weekend_nights:
+    value: 4
+    basis: "ASSUMPTION: techs stay on site over two weekends (survey to repair, and mid repair)."
+  share_running:
+    value: 0.80
+    basis: "ASSUMPTION: 80% per Helen King ('we can probably assume they are running 80% of their equipment')."
+
+compressors:
+  source: "Helen King (CAM Technologies) email, 10/13/26"
+  units:
+    - {name: "Sullair TS-20, fixed speed", hp: 200}
+    - {name: "Ingersoll Rand R110i, fixed speed", hp: 150}
+    - {name: "Ingersoll Rand (model not given), fixed speed", hp: 200}
+    - {name: "Ingersoll Rand Ri160e, fixed speed", hp: 200}
+    - {name: "Ingersoll Rand Ri160e, fixed speed (second unit)", hp: 200}
+    - {name: "Ingersoll Rand (model not given), fixed speed (second unit)", hp: 200}
+    - {name: "Ingersoll Rand R110i, fixed speed (second unit)", hp: 150}
+    - {name: "Centac, centrifugal", hp: 600, note: "CFM per HP of 4.3 is a planning factor and may differ for a centrifugal."}
+    - {name: "Unlisted unit (blank bullet in the email list)", hp: 0, note: "ASSUMPTION: 0 HP. Enter its HP if Helen confirms one."}
+
+# Optional. Measured plant flow replaces the HP-based sizing when present.
+measured_cfm: null
